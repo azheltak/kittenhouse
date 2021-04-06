@@ -10,8 +10,8 @@ import (
 	"net"
 	"syscall"
 
-	cmdconfig "github.com/azheltak/kittenhouse/core/cmdconfig"
-	"github.com/azheltak/kittenhouse/core/inmem"
+	cmdconfig "kittenhouse/core/cmdconfig"
+	"kittenhouse/core/inmem"
 )
 
 var (

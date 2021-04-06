@@ -21,9 +21,9 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 
-	cmdconfig "github.com/azheltak/kittenhouse/core/cmdconfig"
-	"github.com/azheltak/kittenhouse/core/destination"
 	"github.com/vkcom/engine-go/srvfunc"
+	cmdconfig "kittenhouse/core/cmdconfig"
+	"kittenhouse/core/destination"
 )
 
 const (

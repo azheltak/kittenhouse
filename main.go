@@ -5,11 +5,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/azheltak/kittenhouse/core/clickhouse"
-	"github.com/azheltak/kittenhouse/core/cmd"
-	"github.com/azheltak/kittenhouse/core/inmem"
-	"github.com/azheltak/kittenhouse/core/persist"
 	"github.com/valyala/fasthttp"
+	"kittenhouse/core/clickhouse"
+	"kittenhouse/core/cmd"
+	"kittenhouse/core/inmem"
+	"kittenhouse/core/persist"
 )
 
 const (
