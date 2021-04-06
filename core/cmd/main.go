@@ -14,12 +14,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/azheltak/kittenhouse/core/clickhouse"
+	cmdconfig "github.com/azheltak/kittenhouse/core/cmdconfig"
+	"github.com/azheltak/kittenhouse/core/destination"
+	"github.com/azheltak/kittenhouse/core/inmem"
+	"github.com/azheltak/kittenhouse/core/persist"
 	"github.com/vkcom/engine-go/srvfunc"
-	"github.com/vkcom/kittenhouse/core/clickhouse"
-	cmdconfig "github.com/vkcom/kittenhouse/core/cmdconfig"
-	"github.com/vkcom/kittenhouse/core/destination"
-	"github.com/vkcom/kittenhouse/core/inmem"
-	"github.com/vkcom/kittenhouse/core/persist"
 )
 
 var (

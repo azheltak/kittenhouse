@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vkcom/kittenhouse/core/destination"
+	"github.com/azheltak/kittenhouse/core/destination"
 )
 
 /*

@@ -18,12 +18,12 @@ import (
 	"sync"
 	"time"
 
-	"crypto/x509"
 	"crypto/tls"
+	"crypto/x509"
 
+	cmdconfig "github.com/azheltak/kittenhouse/core/cmdconfig"
+	"github.com/azheltak/kittenhouse/core/destination"
 	"github.com/vkcom/engine-go/srvfunc"
-	cmdconfig "github.com/vkcom/kittenhouse/core/cmdconfig"
-	"github.com/vkcom/kittenhouse/core/destination"
 )
 
 const (
@@ -43,7 +43,7 @@ var (
 	}{
 		m: make(map[destination.ServerHostPort]*kittenMeow),
 	}
-    // generate HTTP client
+	// generate HTTP client
 	httpClient = generateHttpClient()
 )
 
@@ -470,20 +470,20 @@ func flush(dst *destination.Setting, table string, body []byte, rowBinary bool, 
 	// generate request
 	req, err := http.NewRequest("POST", url, bytes.NewReader(body))
 	if err != nil {
-	    panic(err)
+		panic(err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	// add clickhouse user
 	if cmdconfig.Argv.ChUser != "" {
-	    req.Header.Add("X-ClickHouse-User", cmdconfig.Argv.ChUser)
+		req.Header.Add("X-ClickHouse-User", cmdconfig.Argv.ChUser)
 	}
 	// add clickhouse password
 	if cmdconfig.Argv.ChPassword != "" {
-	    req.Header.Add("X-ClickHouse-Key", cmdconfig.Argv.ChPassword)
+		req.Header.Add("X-ClickHouse-Key", cmdconfig.Argv.ChPassword)
 	}
 	// send request
 	resp, err := httpClient.Do(req)
-    // check error
+	// check error
 	if err != nil {
 		log.Printf("Could not post to table %s to clickhouse: %s", table, err.Error())
 		dst.TempDisableHost(srv, checkHostAlive)
@@ -523,33 +523,35 @@ func flush(dst *destination.Setting, table string, body []byte, rowBinary bool, 
 
 // generate HTTP client
 func generateHttpClient() *http.Client {
-    // SSL cert path
-    var sslCertPath = cmdconfig.Argv.ChSslCertPath
-    //
-    if sslCertPath != "" {
-        // read cert
-        caCert, err := ioutil.ReadFile(sslCertPath)
-        // if cert absent, panic
-        if err != nil { panic(err) }
-        var caCertPool = x509.NewCertPool()
-        caCertPool.AppendCertsFromPEM(caCert)
-        return &http.Client{
-                    Transport: &http.Transport{
-               		MaxIdleConnsPerHost: 1,
-               		DialContext:         srvfunc.CachingDialer,
-               		TLSClientConfig: &tls.Config{
-               		    RootCAs: caCertPool,
-               		},
-                },
-            Timeout: time.Minute,
-        }
-    } else {
-        return &http.Client{
-                    Transport: &http.Transport{
-               		MaxIdleConnsPerHost: 1,
-               		DialContext:         srvfunc.CachingDialer,
-                },
-            Timeout: time.Minute,
-        }
-    }
+	// SSL cert path
+	var sslCertPath = cmdconfig.Argv.ChSslCertPath
+	//
+	if sslCertPath != "" {
+		// read cert
+		caCert, err := ioutil.ReadFile(sslCertPath)
+		// if cert absent, panic
+		if err != nil {
+			panic(err)
+		}
+		var caCertPool = x509.NewCertPool()
+		caCertPool.AppendCertsFromPEM(caCert)
+		return &http.Client{
+			Transport: &http.Transport{
+				MaxIdleConnsPerHost: 1,
+				DialContext:         srvfunc.CachingDialer,
+				TLSClientConfig: &tls.Config{
+					RootCAs: caCertPool,
+				},
+			},
+			Timeout: time.Minute,
+		}
+	} else {
+		return &http.Client{
+			Transport: &http.Transport{
+				MaxIdleConnsPerHost: 1,
+				DialContext:         srvfunc.CachingDialer,
+			},
+			Timeout: time.Minute,
+		}
+	}
 }
